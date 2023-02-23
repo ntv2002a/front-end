@@ -22,7 +22,7 @@ export const Dashboard = () => {
                 </div>
                 <div className='bg'>
                     <h1>Nội Dung Chính</h1>
-                </div>
+                </div>{xcxcxcxc}
             </Stack>
         </div>
     );
