@@ -1,0 +1,27 @@
+#header {
+    position: fixed;
+    left: 0;
+    top: 120px;
+    height: calc(100vh - 120px);
+}
+#header > aside{
+    height: 100%;
+}
+#header > .list > div{
+    display: flex;
+    flex-direction: column;
+}
+
+#header > .list .bottom {
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
+/* #header > .list > div{
+   position: relative;
+}
+
+#header > .list .bottom {
+    position: absolute;
+    bottom: 0;
+} */
