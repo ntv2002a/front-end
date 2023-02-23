@@ -27,7 +27,6 @@ export const SideBar = () => {
         //condition checking to change state from true to false and vice versa
         menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
-// ddddd
 
     return (
         <>
