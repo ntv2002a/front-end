@@ -1,18 +1,18 @@
-#header {
+#header-sidebar {
     position: fixed;
     left: 0;
     top: 120px;
     height: calc(100vh - 120px);
 }
-#header > aside{
+#header-sidebar > aside{
     height: 100%;
 }
-#header > .list > div{
+#header-sidebar > .list > div{
     display: flex;
     flex-direction: column;
 }
 
-#header > .list .bottom {
+#header-sidebar > .list .bottom {
     margin-top: auto;
     margin-bottom: 0;
 }

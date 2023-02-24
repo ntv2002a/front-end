@@ -32,7 +32,26 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-navbar {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.App-dashboard {
+  padding-left: 250px;
+  padding-top: 120px;
+  height: 100vh;
+}
+
+.App-homepage {
+  padding-top: 120px;
+  height: 100vh;
 }

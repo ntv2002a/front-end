@@ -1,12 +1,12 @@
 import React from "react";
-import logo from '../Aura-logo-6.png';
-import '../App.css';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import logo from '../../Aura-logo-6.png';
+import '../../App.css';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown, Container, Button } from 'react-bootstrap';
 
 export const NavBar = () => {
     return (
-        <div className="App">
+        <div className="App-navbar">
           <Navbar bg="dark" variant="dark">
             <Container>
               <Navbar.Brand href="">

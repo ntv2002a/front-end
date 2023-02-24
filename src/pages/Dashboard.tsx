@@ -13,17 +13,15 @@ export const Dashboard = () => {
     }
 
     return (
-        <div className='App' style={{paddingLeft: "300px"}}>
-            <Stack direction='horizontal' gap={2}>
-                <div className='bg'>
-                    <ProSidebarProvider>
-                        <SideBar />
-                    </ProSidebarProvider>
+        <div className='App-dashboard'>
+            <div>
+                <ProSidebarProvider>
+                    <SideBar />
+                </ProSidebarProvider>
+                <div>
+                    <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
                 </div>
-                <div className='bg'>
-                    <h1>Nội Dung Chính</h1>
-                </div>
-            </Stack>
+            </div>
         </div>
     );
 }
