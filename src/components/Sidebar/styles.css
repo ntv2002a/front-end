@@ -9,8 +9,7 @@
 }
 #header-sidebar > .list > div{
     display: flex;
-    flex-direction: column;
-}
+    flex-direction: column;}
 
 #header-sidebar > .list .bottom {
     margin-top: auto;

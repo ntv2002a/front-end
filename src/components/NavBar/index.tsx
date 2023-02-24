@@ -2,7 +2,7 @@ import React from "react";
 import logo from '../../Aura-logo-6.png';
 import '../../App.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Navbar, NavDropdown, Container, Button } from 'react-bootstrap';
+import { Nav, Navbar, Container, Button } from 'react-bootstrap';
 
 export const NavBar = () => {
     return (
@@ -16,7 +16,7 @@ export const NavBar = () => {
                 <Nav.Link href="./">Home</Nav.Link>
                 <Nav.Link href="./dashboard">Dashboard</Nav.Link>
               </Nav>
-              <Nav> <Button size='lg' variant="outline-light">Connect Wallet</Button>{' '}</Nav>
+              <Nav><Button size='lg' variant="outline-light">Connect Wallet</Button></Nav>
             </Container>
           </Navbar>
           <br />
