@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import { SideBar } from '../components/Sidebar';
-import { Stack } from 'react-bootstrap';
 
 
 export const Dashboard = () => {

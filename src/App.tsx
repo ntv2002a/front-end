@@ -1,10 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { NavBar } from './components/NavBar';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Dashboard } from './pages/Dashboard';
-import { Nav } from 'react-bootstrap';
 import { Home } from './pages/HomePage';
 
 function App() {
