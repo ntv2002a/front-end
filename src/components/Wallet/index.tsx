@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChainInfo, Window as KeplrWindow } from "@keplr-wallet/types";
 import { AccountData, OfflineSigner } from "@cosmjs/proto-signing"
-import { Account, Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
+import { Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import {Button } from 'react-bootstrap';
 
 declare global {
@@ -35,7 +35,7 @@ export function WalletConnection({setSigningClient, setAccount, setBalance} : Wa
         const account: AccountData = (await offlineSigner.getAccounts())[0];
         const address: string = account.address;
         
-        if (address != undefined) {
+        if (address !== undefined) {
             const balanceAsCoin: Coin = await signingClient.getBalance(address, 'ueaura');
             const balance : number = parseFloat(balanceAsCoin.amount) * 1/1000000;
 
@@ -47,7 +47,7 @@ export function WalletConnection({setSigningClient, setAccount, setBalance} : Wa
     return (
         <div>
             <Button onClick={connectKeplr} size='lg' variant="outline-light">
-              Connect Waller
+              Connect Wallet
             </Button>
         </div>
     );    
@@ -67,7 +67,7 @@ export const setNodeBalance = async (setBalance : React.Dispatch<React.SetStateA
    )
    const account: AccountData = (await offlineSigner.getAccounts())[0]
    const address: string = account.address;
-   if (address != undefined){
+   if (address !== undefined){
    const balanceAsCoin: Coin = await signingClient.getBalance(address, 'ueaura');
    const balance:number = parseFloat(balanceAsCoin.amount) * 1/1000000;
    setBalance(balance);

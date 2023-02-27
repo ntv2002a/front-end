@@ -19,6 +19,7 @@ export const Dashboard = () => {
                 </ProSidebarProvider>
                 <div>
                     <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
+                    <button onClick={handleClick}>Go Back to Home</button>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ import React from 'react';
 const SERVER_MNEMONIC: string | undefined = "razor umbrella worry section stem athlete hero modify dirt sign ride lawsuit";
 const getServer = async (): Promise<OfflineDirectSigner | null> => {
     let serverWallet: OfflineDirectSigner | null = null;
-    if (SERVER_MNEMONIC != undefined) {
+    if (SERVER_MNEMONIC !== undefined) {
         serverWallet = await DirectSecp256k1HdWallet.fromMnemonic(SERVER_MNEMONIC, {
             prefix: "aura",
         });
