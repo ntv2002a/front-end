@@ -3,7 +3,7 @@ import logo from '../../Aura-logo-6.png';
 import '../../App.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, Container, Button } from 'react-bootstrap';
-import { WalletConnection } from "../Pages/HomePage/WalletConnection";
+import { WalletConnection } from "../Wallet/WalletConnection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
 
