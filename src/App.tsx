@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import { NavBar } from './components/NavBar';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { Dashboard } from './pages/Dashboard';
-import { Home } from './pages/HomePage';
+import { Dashboard } from './components/Pages/Dashboard';
+import { Home } from './components/Pages/HomePage';
 
 function App() {
   return (

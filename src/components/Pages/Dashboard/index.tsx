@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
-import { SideBar } from '../components/Sidebar';
+import { SideBar } from '../../Sidebar';
 
 
 export const Dashboard = () => {
