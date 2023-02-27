@@ -2,7 +2,7 @@ import React from "react";
 import logo from '../../Aura-logo-6.png';
 import '../../App.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Navbar, Container } from 'react-bootstrap';
+import { Nav, Navbar, Container, Button } from 'react-bootstrap';
 import { setNodeBalance, WalletConnection } from "../Wallet";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
@@ -21,7 +21,7 @@ export const NavBar = () => {
             <Nav.Link href="./dashboard">Dashboard</Nav.Link>
           </Nav>
           <Nav>
-            {DisplayConnect()}
+            <DisplayConnect/>
           </Nav>
         </Container>
       </Navbar>
@@ -30,7 +30,7 @@ export const NavBar = () => {
   );
 }
 
-const DisplayConnect = () => {
+export const DisplayConnect = () => {
   let [signingClient, setSigningClient] = React.useState<SigningStargateClient | null>(null);
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
@@ -44,13 +44,12 @@ const DisplayConnect = () => {
     );
   }
   else {
-    console.log('Address: ' + {address});
-    console.log('Balance: ' + {balance});
+    console.log('Address: ' + { address });
+    console.log('Balance: ' + { balance });
     return (
-      <Navbar.Brand>
-        Welcome
-        <AppFunction setBalance = {setBalance} setNodeBalance = {setNodeBalance} functionSignOut = {functionSignOut}  account = {account} signingClient = {signingClient} />
-      </Navbar.Brand>
+      <Button onClick={functionSignOut} size='lg' variant="outline-light">
+        Sign Out
+      </Button>
     );
   }
 }

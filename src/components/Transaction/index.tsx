@@ -1,5 +1,5 @@
 import { AccountData, Coin, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { SigningStargateClient, StdFee, assertIsDeliverTxSuccess, DeliverTxResponse, StargateClient, assertIsDeliverTxFailure } from '@cosmjs/stargate';
+import { SigningStargateClient, StdFee, assertIsDeliverTxSuccess, DeliverTxResponse } from '@cosmjs/stargate';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import Modal from 'react-modal';
 import React from 'react';
