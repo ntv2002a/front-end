@@ -9,7 +9,7 @@ declare global {
 }
 
 const chainId: string = 'enphoria-2';
-const rpcUlr: string = 'https://rpc.euphoria.aura.network';
+const rpcUrl: string = 'https://rpc.euphoria.aura.network';
 
 interface WalletConnectionProps {
     setSigningClient: React.Dispatch<React.SetStateAction<any>>,
@@ -29,7 +29,7 @@ export function WalletConnection({setSigningClient, setAccount, setBalance} : Wa
 
         const offlineSigner: OfflineSigner = window.getOfflineSigner!(chainId);
         const signingClient : StargateClient = await SigningStargateClient.connectWithSigner(
-            rpcUlr,
+            rpcUrl,
             offlineSigner
         );
         const account: AccountData = (await offlineSigner.getAccounts())[0];
@@ -51,6 +51,28 @@ export function WalletConnection({setSigningClient, setAccount, setBalance} : Wa
             </Button>
         </div>
     );    
+}
+
+export const setNodeBalance = async (setBalance : React.Dispatch<React.SetStateAction<number>>): Promise<void> => {
+  const { keplr } = window
+  if (!keplr) {
+   return;
+   }
+   await keplr.experimentalSuggestChain(getTestnetChainInfo())
+  const offlineSigner: OfflineSigner =
+    window.getOfflineSigner!(chainId);
+   const signingClient : StargateClient = await SigningStargateClient.connectWithSigner(
+    rpcUrl,
+    offlineSigner,
+   )
+   const account: AccountData = (await offlineSigner.getAccounts())[0]
+   const address: string = account.address;
+   if (address != undefined){
+   const balanceAsCoin: Coin = await signingClient.getBalance(address, 'ueaura');
+   const balance:number = parseFloat(balanceAsCoin.amount) * 1/1000000;
+   setBalance(balance);
+
+  }
 }
 
 const getTestnetChainInfo = (): ChainInfo => ({

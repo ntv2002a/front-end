@@ -3,15 +3,15 @@ import logo from '../../Aura-logo-6.png';
 import '../../App.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, Container, Button } from 'react-bootstrap';
-import { WalletConnection } from "../Wallet/WalletConnection";
+import { WalletConnection } from "../Wallet";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
 
 export const NavBar = () => {
-  let [signingClient, setSigningClient] = React.useState<SigningStargateClient|null>(null);
-  let [account, setAccount] = React.useState<AccountData|null>(null);
+  let [signingClient, setSigningClient] = React.useState<SigningStargateClient | null>(null);
+  let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
-  
+
   const functionSignOut = () => setSigningClient(null);
 
   return (
@@ -26,7 +26,7 @@ export const NavBar = () => {
             <Nav.Link href="./dashboard">Dashboard</Nav.Link>
           </Nav>
           <Nav>
-              <WalletConnection setSigningClient = {setSigningClient} setAccount = {setAccount} setBalance = {setBalance}/>
+            <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} />
           </Nav>
         </Container>
       </Navbar>
