@@ -46,8 +46,8 @@ export const SideBar = () => {
           </Sidebar>
           <Sidebar>
             <Menu>
-              <MenuItem href="/" icon={<FiHome />}>Home</MenuItem>
-              <MenuItem active={true} href="/dashboard" icon={<FaList />}>Dashboad</MenuItem>
+              <MenuItem href="./" icon={<FiHome />}>Home</MenuItem>
+              <MenuItem href="/dashboard" icon={<FaList />}>Dashboad</MenuItem>
               <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
               <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
               <MenuItem icon={<BiCog />}>Settings</MenuItem>

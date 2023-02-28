@@ -50,7 +50,7 @@ export const NavBar = () => {
               <Nav.Link href="./dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav>
-              <Button onClick={functionSignOut}>Sign Out</Button>
+              <Button onClick={functionSignOut} size='lg' variant="outline-light">Sign Out</Button>
             </Nav>
           </Container>
         </Navbar>
