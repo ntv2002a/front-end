@@ -9,28 +9,7 @@ import { AccountData } from "@keplr-wallet/types";
 import { AppFunction } from "../DWFunction";
 
 export const NavBar = () => {
-  return (
-    <div className="App-navbar">
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="">
-            <img src={logo} className="App-logo" alt="logo" />
-          </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="./">Home</Nav.Link>
-            <Nav.Link href="./dashboard">Dashboard</Nav.Link>
-          </Nav>
-          <Nav>
-            <DisplayConnect/>
-          </Nav>
-        </Container>
-      </Navbar>
-      <br />
-    </div>
-  );
-}
 
-export const DisplayConnect = () => {
   let [signingClient, setSigningClient] = React.useState<SigningStargateClient | null>(null);
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
@@ -38,18 +17,75 @@ export const DisplayConnect = () => {
   const functionSignOut = () => setSigningClient(null);
   const address: string | undefined = account?.address;
 
-  if (signingClient === null) {
+  // const changeStatus = () => {
+  //   if (signingClient == null) {
+  //     console.log("Chua connect");
+  //   }
+  //   else {
+  //     console.log("Da connect");
+  //   }
+  // }
+
+  if (signingClient == null) {
     return (
-      <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} />
+      <div className="App-navbar">
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="">
+              <img src={logo} className="App-logo" alt="logo" />
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="./">Home</Nav.Link>
+              <Nav.Link href="./dashboard">Dashboard</Nav.Link>
+            </Nav>
+            <Nav>
+              <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} />
+            </Nav>
+          </Container>
+        </Navbar>
+        <br />
+      </div>
     );
   }
   else {
-    console.log('Address: ' + { address });
-    console.log('Balance: ' + { balance });
     return (
-      <Button onClick={functionSignOut} size='lg' variant="outline-light">
-        Sign Out
-      </Button>
+      <div className="App-navbar">
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="">
+              <img src={logo} className="App-logo" alt="logo" />
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="./">Home</Nav.Link>
+              <Nav.Link href="./dashboard">Dashboard</Nav.Link>
+            </Nav>
+            <Nav>
+              <Button onClick={functionSignOut}>Sign Out</Button>
+            </Nav>
+          </Container>
+        </Navbar>
+        <br />
+      </div>
     );
   }
+
+  // return (
+  //   <div className="App-navbar">
+  //     <Navbar bg="dark" variant="dark">
+  //       <Container>
+  //         <Navbar.Brand href="">
+  //           <img src={logo} className="App-logo" alt="logo" />
+  //         </Navbar.Brand>
+  //         <Nav className="me-auto">
+  //           <Nav.Link href="./">Home</Nav.Link>
+  //           <Nav.Link href="./dashboard">Dashboard</Nav.Link>
+  //         </Nav>
+  //         <Nav onClick={changeStatus}>
+  //           <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} />
+  //         </Nav>
+  //       </Container>
+  //     </Navbar>
+  //     <br />
+  //   </div>
+  // );
 }
