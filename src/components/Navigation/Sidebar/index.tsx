@@ -4,8 +4,8 @@ import {
   MenuItem,
   Sidebar
 } from "react-pro-sidebar";
-import logo from '../../baitala.jpg';
-import logo2 from '../../Aura-logo-6.png';
+import logo from '../../../baitala.jpg';
+import logo2 from '../../../Aura-logo-6.png';
 // import "./SideBar.css";
 import "./styles.css"
 

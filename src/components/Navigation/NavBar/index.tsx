@@ -1,12 +1,12 @@
 import React from "react";
-import logo from '../../Aura-logo-6.png';
-import '../../App.css';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import logo from '../../../Aura-logo-6.png';
+import '../../../App.css';
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, Container, Button } from 'react-bootstrap';
-import { setNodeBalance, WalletConnection } from "../Wallet";
+import { setNodeBalance, WalletConnection } from "../../Wallet/Connection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
-import { AppFunction } from "../DWFunction";
+import { AppFunction } from "../../Wallet/De-Wi";
 
 export const NavBar = () => {
 
@@ -16,15 +16,6 @@ export const NavBar = () => {
 
   const functionSignOut = () => setSigningClient(null);
   const address: string | undefined = account?.address;
-
-  // const changeStatus = () => {
-  //   if (signingClient == null) {
-  //     console.log("Chua connect");
-  //   }
-  //   else {
-  //     console.log("Da connect");
-  //   }
-  // }
 
   if (signingClient == null) {
     return (

@@ -7,7 +7,7 @@ declare global {
   interface Window extends KeplrWindow { }
 }
 
-const chainId: string = 'enphoria-2';
+const chainId: string = 'euphoria-2';
 const rpcUrl: string = 'https://rpc.euphoria.aura.network';
 
 interface WalletConnectionProps {
@@ -50,8 +50,6 @@ export function WalletConnection({ setSigningClient, setAccount, setBalance }: W
       <Button onClick={connectKeplr} size='lg' variant="outline-light">
         Connect Wallet
       </Button>
-
-      <button onClick={connectKeplr}>Connect Wallet</button>
     </div>
   );
 }
