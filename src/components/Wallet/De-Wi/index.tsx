@@ -9,9 +9,9 @@ interface AppFunctionProps {
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function AppFunction({ functionSignOut, signingClient, account, setNodeBalance, setBalance }: AppFunctionProps) {
+export function De_WI({ functionSignOut, signingClient, account, setNodeBalance, setBalance }: AppFunctionProps) {
     return (
-        <div className="HomePage">
+        <div>
             <Deposit signingClient={signingClient} account={account} setNodeBalance={setNodeBalance} setBalance={setBalance} />
             <Withdraw account={account} setNodeBalance={setNodeBalance} setBalance={setBalance} />
         </div>
