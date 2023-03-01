@@ -3,13 +3,12 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Deposit, Withdraw } from "../Transaction";
 
 interface AppFunctionProps {
-    functionSignOut: () => void,
     signingClient: SigningStargateClient | null,
     account: AccountData | null,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function De_WI({ functionSignOut, signingClient, account, setNodeBalance, setBalance }: AppFunctionProps) {
+export function De_WI({ signingClient, account, setNodeBalance, setBalance }: AppFunctionProps) {
     return (
         <div>
             <Deposit signingClient={signingClient} account={account} setNodeBalance={setNodeBalance} setBalance={setBalance} />

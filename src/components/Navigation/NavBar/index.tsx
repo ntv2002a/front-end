@@ -13,7 +13,11 @@ export const NavBar = () => {
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
 
-  const functionSignOut = () => setSigningClient(null);
+  const functionSignOut = () => {
+    setSigningClient(null);
+    setAccount(null);
+    setBalance(NaN);
+  }
   const address: string | undefined = account?.address;
 
   if (signingClient == null) {
