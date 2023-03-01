@@ -2,22 +2,30 @@ import React from "react";
 import logo from '../../../Aura-logo-6.png';
 import '../../../App.css';
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Navbar, Container, Button } from 'react-bootstrap';
+import { Nav, Navbar, Container, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { WalletConnection } from "../../Wallet/Connection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
+import "./styles.css";
 
 export const NavBar = () => {
 
   let [signingClient, setSigningClient] = React.useState<SigningStargateClient | null>(null);
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
+  let [user, setUser] = React.useState<string>('');
 
   const functionSignOut = () => {
     setSigningClient(null);
     setAccount(null);
     setBalance(NaN);
+    setUser('');
   }
+
+  const showInfo = () => {
+    alert("User: " + user + "\n" + "Address: " + address + "\n" + "Balance: " + balance + "eaura");
+  }
+
   const address: string | undefined = account?.address;
 
   if (signingClient == null) {
@@ -33,7 +41,7 @@ export const NavBar = () => {
               <Nav.Link href="./dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav>
-              <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} />
+              <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} setUser={setUser} />
             </Nav>
           </Container>
         </Navbar>
@@ -54,7 +62,10 @@ export const NavBar = () => {
               <Nav.Link href="./dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav>
-              <Button onClick={functionSignOut} size='lg' variant="outline-light">Sign Out</Button>
+              <DropdownButton variant="outline-light" id="dropdown-basic-button" title={user}>
+                <Dropdown.Item className="Dropdown-item" onClick={showInfo}>Info</Dropdown.Item>
+                <Dropdown.Item className="Dropdown-item" onClick={functionSignOut}>Sign Out</Dropdown.Item>
+              </DropdownButton>
             </Nav>
           </Container>
         </Navbar>

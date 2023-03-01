@@ -1,7 +1,8 @@
-import { ChainInfo, Window as KeplrWindow } from "@keplr-wallet/types";
+import { ChainInfo, Key, Window as KeplrWindow } from "@keplr-wallet/types";
 import { AccountData, OfflineSigner } from "@cosmjs/proto-signing"
 import { Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import { Button } from 'react-bootstrap';
+import "./styles.css";
 
 declare global {
   interface Window extends KeplrWindow { }
@@ -13,10 +14,11 @@ const rpcUrl: string = 'https://rpc.euphoria.aura.network';
 interface WalletConnectionProps {
   setSigningClient: React.Dispatch<React.SetStateAction<any>>,
   setAccount: React.Dispatch<React.SetStateAction<any>>,
-  setBalance: React.Dispatch<React.SetStateAction<number>>
+  setBalance: React.Dispatch<React.SetStateAction<number>>,
+  setUser : React.Dispatch<React.SetStateAction<string>>
 }
 
-export function WalletConnection({ setSigningClient, setAccount, setBalance }: WalletConnectionProps) {
+export function WalletConnection({ setSigningClient, setAccount, setBalance, setUser }: WalletConnectionProps) {
 
   const connectKeplr = async () => {
     const { keplr } = window
@@ -42,12 +44,13 @@ export function WalletConnection({ setSigningClient, setAccount, setBalance }: W
       setSigningClient(signingClient);
       setAccount(account);
       setBalance(balance);
+      setUser((await keplr.getKey(chainId)).name);
     }
   }
 
   return (
     <div>
-      <Button onClick={connectKeplr} size='lg' variant="outline-light">
+      <Button className="Button-connect" onClick={connectKeplr} size='lg' variant="outline-light">
         Connect Wallet
       </Button>
     </div>
