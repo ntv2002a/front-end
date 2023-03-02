@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from '../../../Aura-logo-6.png';
 import '../../../App.css';
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -14,17 +14,35 @@ export const NavBar = () => {
   let [signingClient, setSigningClient] = React.useState<SigningStargateClient | null>(null);
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
-  let [user, setUser] = React.useState<string>('');
+  let [username, setUsername] = React.useState<string>('');
 
   const functionSignOut = () => {
     setSigningClient(null);
     setAccount(null);
     setBalance(NaN);
-    setUser('');
+    setUsername('');
   }
 
+  useEffect(() => {
+    if (username !== "" || signingClient !== null) {
+      fetch("http://192.168.10.68:3001/sign-in", {
+      method: 'POST',
+      body: JSON.stringify({ username, address }),
+      headers: {
+        "Content-type": "application/json"
+      },
+    }).then(() => {
+      //process data
+
+    }).catch((error) => {
+      console.log(error);
+    });
+    }
+    
+  }, [username])
+
   const showInfo = () => {
-    alert("User: " + user + "\n" + "Address: " + address + "\n" + "Balance: " + balance + "eaura");
+    alert("User: " + username + "\n" + "Address: " + address + "\n" + "Balance: " + balance + "eaura");
   }
 
   const address: string | undefined = account?.address;
@@ -42,7 +60,7 @@ export const NavBar = () => {
               <Nav.Link href="./dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav>
-              <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} setUser={setUser} />
+              <WalletConnection setSigningClient={setSigningClient} setAccount={setAccount} setBalance={setBalance} setUser={setUsername} />
             </Nav>
           </Container>
         </Navbar>
@@ -51,21 +69,8 @@ export const NavBar = () => {
     );
   }
   else {
-    fetch("", {
-      method: 'POST',
-      body: JSON.stringify({user, address}),
-      headers: {
-        "Content-type" : "application/json"
-      },
-    }).then(() => {
-      //process data
+    localStorage.setItem('user', JSON.stringify({ username, address }));
 
-    }).catch((error) => {
-      console.log(error);
-    });
-
-    localStorage.setItem('user', JSON.stringify({user, address}));
-    
     return (
       <div className="App-navbar">
         <Navbar bg="dark" variant="dark">
@@ -78,7 +83,7 @@ export const NavBar = () => {
               <Nav.Link href="./dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav>
-              <DropdownButton variant="outline-light" id="dropdown-basic-button" title={user}>
+              <DropdownButton variant="outline-light" id="dropdown-basic-button" title={username}>
                 <Dropdown.Item className="Dropdown-item" onClick={showInfo}>Info</Dropdown.Item>
                 <Dropdown.Item className="Dropdown-item" onClick={functionSignOut}>Sign Out</Dropdown.Item>
               </DropdownButton>

@@ -1,4 +1,4 @@
-import { ChainInfo, Key, Window as KeplrWindow } from "@keplr-wallet/types";
+import { ChainInfo, Window as KeplrWindow } from "@keplr-wallet/types";
 import { AccountData, OfflineSigner } from "@cosmjs/proto-signing"
 import { Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import { Button } from 'react-bootstrap';
