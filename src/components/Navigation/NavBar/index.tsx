@@ -7,6 +7,7 @@ import { WalletConnection } from "../../Wallet/Connection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
 import "./styles.css";
+import { error } from "console";
 
 export const NavBar = () => {
 
@@ -50,6 +51,21 @@ export const NavBar = () => {
     );
   }
   else {
+    fetch("", {
+      method: 'POST',
+      body: JSON.stringify({user, address}),
+      headers: {
+        "Content-type" : "application/json"
+      },
+    }).then(() => {
+      //process data
+
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    localStorage.setItem('user', JSON.stringify({user, address}));
+    
     return (
       <div className="App-navbar">
         <Navbar bg="dark" variant="dark">
@@ -74,3 +90,5 @@ export const NavBar = () => {
     );
   }
 }
+
+export default NavBar;
