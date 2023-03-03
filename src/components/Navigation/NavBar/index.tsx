@@ -7,7 +7,7 @@ import { WalletConnection } from "../../Wallet/Connection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
 import "./styles.css";
-import { error } from "console";
+// import axios from "axios";
 
 export const NavBar = () => {
 
@@ -15,6 +15,24 @@ export const NavBar = () => {
   let [account, setAccount] = React.useState<AccountData | null>(null);
   let [balance, setBalance] = React.useState<number>(NaN);
   let [username, setUsername] = React.useState<string>('');
+
+  const handleFetch = async () => {
+    try {
+      const response = await fetch("http://192.168.10.68:3001/sign-in", {
+        // http://localhost:3001
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({ username, address })
+      })
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+    } catch (error) {
+      console.log(error)
+    };
+  }
 
   const functionSignOut = () => {
     setSigningClient(null);
@@ -25,20 +43,22 @@ export const NavBar = () => {
 
   useEffect(() => {
     if (username !== "" || signingClient !== null) {
-      fetch("http://192.168.10.68:3001/sign-in", {
-      method: 'POST',
-      body: JSON.stringify({ username, address }),
-      headers: {
-        "Content-type": "application/json"
-      },
-    }).then(() => {
-      //process data
-
-    }).catch((error) => {
-      console.log(error);
-    });
+    //   fetch("http://localhost:3001/api/sign-in", {
+    //   method: 'POST',
+    //   body: JSON.stringify({ username, address }),
+    //   headers: {
+    //     "Content-type": "application/json"
+    //   },
+    // }).then(async (response) => {
+    //   //process data
+    //   localStorage.setItem('token', await response.json());
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
+    handleFetch();
     }
     
+
   }, [username])
 
   const showInfo = () => {
