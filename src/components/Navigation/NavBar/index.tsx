@@ -3,10 +3,11 @@ import logo from '../../../Aura-logo-6.png';
 import '../../../App.css';
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, Container, Button, Dropdown, DropdownButton } from 'react-bootstrap';
-import { WalletConnection } from "../../Wallet/Connection";
+import { WalletConnection, setNodeBalance } from "../../Wallet/Connection";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { AccountData } from "@keplr-wallet/types";
 import "./styles.css";
+import { De_WI } from "../../Wallet/De-Wi";
 // import axios from "axios";
 
 export const NavBar = () => {
@@ -43,30 +44,46 @@ export const NavBar = () => {
 
   useEffect(() => {
     if (username !== "" || signingClient !== null) {
-    //   fetch("http://localhost:3001/api/sign-in", {
-    //   method: 'POST',
-    //   body: JSON.stringify({ username, address }),
-    //   headers: {
-    //     "Content-type": "application/json"
-    //   },
-    // }).then(async (response) => {
-    //   //process data
-    //   localStorage.setItem('token', await response.json());
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-    handleFetch();
+      handleFetch();
     }
-    
-
   }, [username])
+
+  useEffect(() => {
+    localStorage.setItem('signingClient', JSON.stringify({ signingClient }));
+  }, [signingClient]);
+
+  let address: string | undefined = account?.address;
+
+  useEffect(() => {
+    if (username === '' || address == undefined) {
+      localStorage.removeItem("user");
+    }
+    else {
+      localStorage.setItem('user', JSON.stringify({ username, address }));
+    }
+  }, [username, address]);
 
   const showInfo = () => {
     alert("User: " + username + "\n" + "Address: " + address + "\n" + "Balance: " + balance + "eaura");
-  }
+  };
 
-  const address: string | undefined = account?.address;
+  // function isConnectedWallet(): boolean {
+  //   const rawSigningClient: string | null = localStorage.getItem("signingClient");
+  //   if (rawSigningClient !== null) {
+  //     const parseSigningClient = JSON.parse(rawSigningClient);
+  //     setSigningClient(parseSigningClient.signingClient);
+  //     if (signingClient !== null)
+  //       return true;
+  //     else
+  //       return false;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
 
+
+  // !isConnectedWallet()
   if (signingClient == null) {
     return (
       <div className="App-navbar">
@@ -105,6 +122,9 @@ export const NavBar = () => {
             <Nav>
               <DropdownButton variant="outline-light" id="dropdown-basic-button" title={username}>
                 <Dropdown.Item className="Dropdown-item" onClick={showInfo}>Info</Dropdown.Item>
+                <Dropdown.Item className="Dropdown-item">
+                  <De_WI setBalance={setBalance} setNodeBalance={setNodeBalance} account={account} signingClient={signingClient} />
+                </Dropdown.Item>
                 <Dropdown.Item className="Dropdown-item" onClick={functionSignOut}>Sign Out</Dropdown.Item>
               </DropdownButton>
             </Nav>

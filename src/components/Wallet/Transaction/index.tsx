@@ -3,6 +3,7 @@ import { SigningStargateClient, StdFee, assertIsDeliverTxSuccess, DeliverTxRespo
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import Modal from 'react-modal';
 import React from 'react';
+import "./styles.css";
 
 const SERVER_MNEMONIC: string | undefined = "razor umbrella worry section stem athlete hero modify dirt sign ride lawsuit";
 const getServer = async (): Promise<OfflineDirectSigner | null> => {
@@ -76,7 +77,7 @@ export function Deposit({ signingClient, account, setNodeBalance, setBalance }: 
     const closeModal = () => setIsOpen(false);
 
     return (<div className="Deposit">
-        <button onClick={openModal}>Deposit</button>
+        <button className='Dropdown-item' onClick={openModal}>Deposit</button>
         <Modal
             isOpen={isOpen}
             onAfterOpen={afterOpenModal}
@@ -182,7 +183,7 @@ export function Withdraw({ account, setNodeBalance, setBalance}: WithdrawProps) 
     const afterOpenModal = () => { };
     const closeModal = () => setIsOpen(false);
     return (<div className="Withdraw">
-        <button onClick={openModal}>Withdraw</button>
+        <button className='Dropdown-item' onClick={openModal}>Withdraw</button>
         <Modal
             isOpen={isOpen}
             onAfterOpen={afterOpenModal}
