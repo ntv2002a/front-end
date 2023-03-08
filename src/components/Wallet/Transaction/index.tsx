@@ -24,6 +24,22 @@ interface DepositProps {
 }
 export function Deposit({ signingClient, account, setNodeBalance, setBalance }: DepositProps) {
 
+    const handleFetch =async () => {
+        try {
+            const response = await fetch("", {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ action: 'deposit' })
+            })
+        }
+        catch (error) {
+            console.log(error);
+        }
+        
+    }
+
     let tempAmountInput: string = '';
     let tempMemoInput: string = '';
     let amountInput:string = '';

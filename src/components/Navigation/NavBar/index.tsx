@@ -35,12 +35,36 @@ export const NavBar = () => {
     };
   }
 
+
+
   const functionSignOut = () => {
     setSigningClient(null);
     setAccount(null);
     setBalance(NaN);
     setUsername('');
   }
+
+  useEffect(() => {
+    const tToken = localStorage.getItem('token');
+    if (tToken != null) {
+      try {
+        const response = fetch("http://192.168.10.68:3001/session-validate", {
+          // http://localhost:3001
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: tToken
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else {
+      console.log("No Token!")
+    }
+    
+  }, [])
 
   useEffect(() => {
     if (username !== "" || signingClient !== null) {
