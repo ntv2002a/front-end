@@ -18,11 +18,11 @@ const getServer = async (): Promise<OfflineDirectSigner | null> => {
 
 interface DepositProps {
     signingClient: SigningStargateClient | null,
-    account: AccountData | null,
+    address: string | null,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function Deposit({ signingClient, account, setNodeBalance, setBalance }: DepositProps) {
+export function Deposit({ signingClient, address, setNodeBalance, setBalance }: DepositProps) {
 
     const handleFetch =async () => {
         try {
@@ -65,8 +65,8 @@ export function Deposit({ signingClient, account, setNodeBalance, setBalance }: 
             },],
             gas: '200000',
         }
-        if (signingClient != null && account != null) {
-            const sendResult: DeliverTxResponse = await signingClient.sendTokens(account.address, receiver, amount, fee, memoInput);
+        if (signingClient != null && address != null) {
+            const sendResult: DeliverTxResponse = await signingClient.sendTokens(address, receiver, amount, fee, memoInput);
             assertIsDeliverTxSuccess(sendResult);
             if (sendResult.code !== undefined &&
                 sendResult.code !== 0) {
@@ -130,11 +130,11 @@ export function Deposit({ signingClient, account, setNodeBalance, setBalance }: 
 
 const rpcEndpoint: string = 'https://rpc.euphoria.aura.network';
 interface WithdrawProps {
-    account: AccountData | null,
+    address: string | null,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function Withdraw({ account, setNodeBalance, setBalance}: WithdrawProps) {
+export function Withdraw({ address, setNodeBalance, setBalance}: WithdrawProps) {
 
     let tempAmountInput: string = '';
     let amountInput: string = '';
@@ -149,8 +149,8 @@ export function Withdraw({ account, setNodeBalance, setBalance}: WithdrawProps) 
             const signingClient: SigningStargateClient = await SigningStargateClient.connectWithSigner(rpcEndpoint, serverWallet);
 
             let receiver: string = '';
-            if (account != null) {
-                receiver = account.address;
+            if (address != null) {
+                receiver = address;
             }
 
             const amount: Coin[] = [{
@@ -165,7 +165,7 @@ export function Withdraw({ account, setNodeBalance, setBalance}: WithdrawProps) 
                 },],
                 gas: '200000',
             }
-            if (signingClient != null && account != null) {
+            if (signingClient != null && address != null) {
                 try {
                     const sendResult: DeliverTxResponse = await signingClient.sendTokens(serverAddress, receiver, amount, fee);
                     assertIsDeliverTxSuccess(sendResult);

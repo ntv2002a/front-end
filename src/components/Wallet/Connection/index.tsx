@@ -1,4 +1,4 @@
-import { ChainInfo, Window as KeplrWindow } from "@keplr-wallet/types";
+import { ChainInfo, Key, Window as KeplrWindow } from "@keplr-wallet/types";
 import { AccountData, OfflineSigner } from "@cosmjs/proto-signing"
 import { Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import { Button } from 'react-bootstrap';
@@ -13,13 +13,13 @@ const rpcUrl: string = 'https://rpc.euphoria.aura.network';
 
 interface WalletConnectionProps {
   setSigningClient: React.Dispatch<React.SetStateAction<any>>,
-  setAccount: React.Dispatch<React.SetStateAction<any>>,
+  // setAccount: React.Dispatch<React.SetStateAction<any>>,
   setBalance: React.Dispatch<React.SetStateAction<number>>,
-  setUser : React.Dispatch<React.SetStateAction<string>>
+  setUser : React.Dispatch<React.SetStateAction<Key | undefined>>
 }
 
-export function WalletConnection({ setSigningClient, setAccount, setBalance, setUser }: WalletConnectionProps) {
-
+export function WalletConnection({ setSigningClient, setBalance, setUser }: WalletConnectionProps) {
+  // setAccount
   const connectKeplr = async () => {
     const { keplr } = window
 
@@ -34,17 +34,19 @@ export function WalletConnection({ setSigningClient, setAccount, setBalance, set
       rpcUrl,
       offlineSigner
     )
-    const account: AccountData = (await offlineSigner.getAccounts())[0]
-    const address: string = account.address;
+    // const account: AccountData = (await offlineSigner.getAccounts())[0]
+    const address = (await keplr.getKey(chainId)).bech32Address;
+    
+    
 
     if (address !== undefined) {
       const balanceAsCoin: Coin = await signingClient.getBalance(address, 'ueaura');
       const balance: number = parseFloat(balanceAsCoin.amount) * 1 / 1000000;
 
       setSigningClient(signingClient);
-      setAccount(account);
+      // setAccount(account);
       setBalance(balance);
-      setUser((await keplr.getKey(chainId)).name);
+      setUser((await keplr.getKey(chainId)));
     }
   }
 
@@ -68,8 +70,7 @@ export const setNodeBalance = async (setBalance: React.Dispatch<React.SetStateAc
     rpcUrl,
     offlineSigner,
   )
-  const account: AccountData = (await offlineSigner.getAccounts())[0]
-  const address: string = account.address;
+  const address = (await keplr.getKey(chainId)).bech32Address;
   if (address !== undefined) {
     const balanceAsCoin: Coin = await signingClient.getBalance(address, 'ueaura');
     const balance: number = parseFloat(balanceAsCoin.amount) * 1 / 1000000;

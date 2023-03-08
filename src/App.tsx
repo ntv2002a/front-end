@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { NavBar } from './components/Navigation/NavBar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -8,6 +8,9 @@ import { Home } from './components/Pages/HomePage';
 
 
 function App() {
+  useEffect(() => {
+    console.log('Alo');
+  })
   return (
     <BrowserRouter>
       <div className="App">

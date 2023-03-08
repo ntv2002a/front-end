@@ -4,15 +4,15 @@ import { Deposit, Withdraw } from "../Transaction";
 
 interface AppFunctionProps {
     signingClient: SigningStargateClient | null,
-    account: AccountData | null,
+    address: string | null,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function De_WI({ signingClient, account, setNodeBalance, setBalance }: AppFunctionProps) {
+export function De_WI({ signingClient, address, setNodeBalance, setBalance }: AppFunctionProps) {
     return (
         <div>
-            <Deposit signingClient={signingClient} account={account} setNodeBalance={setNodeBalance} setBalance={setBalance} />
-            <Withdraw account={account} setNodeBalance={setNodeBalance} setBalance={setBalance} />
+            <Deposit signingClient={signingClient} address={address} setNodeBalance={setNodeBalance} setBalance={setBalance} />
+            <Withdraw address={address} setNodeBalance={setNodeBalance} setBalance={setBalance} />
         </div>
     );
 }
