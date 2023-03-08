@@ -44,18 +44,21 @@ export const NavBar = () => {
     setUsername('');
   }
 
-  useEffect(() => {
-    const tToken = localStorage.getItem('token');
-    if (tToken != null) {
+  const handleFetchSession = async () => {
+    const token = localStorage.getItem('token');
+    if (token != null) {
       try {
-        const response = fetch("http://192.168.10.68:3001/session-validate", {
+        const response = await fetch("http://192.168.10.68:3001/session-validate", {
           // http://localhost:3001
           method: 'POST',
           headers: {
             "Content-type": "application/json"
           },
-          body: tToken
+          body: JSON.stringify({token})
         })
+
+        const data = await response.json();
+        console.log(data)
       } catch (error) {
         console.log(error);
       }
@@ -63,7 +66,10 @@ export const NavBar = () => {
     else {
       console.log("No Token!")
     }
-    
+  }
+
+  useEffect(() => {
+    handleFetchSession();
   }, [])
 
   useEffect(() => {
