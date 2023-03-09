@@ -110,6 +110,7 @@ function App() {
   }
 
   const handleFetchGetDeposit = async () => {
+    let data = null;
     try {
       const response = await fetch("http://192.168.10.65:3001/get-verify-token", {
         // http://localhost:3001
@@ -119,12 +120,11 @@ function App() {
         },
         body: JSON.stringify({})
       })
-
-      const data = await response.json()
-      console.log(data)
+      data = await response.json();
     } catch (error) {
       console.log(error);
     }
+    return data;
   }
 
   const functionSignOut = () => {

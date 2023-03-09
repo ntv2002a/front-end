@@ -2,9 +2,10 @@ import { Coin, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, StdFee, assertIsDeliverTxSuccess, DeliverTxResponse } from '@cosmjs/stargate';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import Modal from 'react-modal';
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import "./styles.css";
 import { GlobalContext } from '../../../App';
+import _ from 'lodash';
 
 const SERVER_MNEMONIC: string | undefined = "razor umbrella worry section stem athlete hero modify dirt sign ride lawsuit";
 const getServer = async (): Promise<OfflineDirectSigner | null> => {
@@ -42,13 +43,14 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
     // }
     const globalContext = useContext(GlobalContext);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    let depositToken = useRef('');
+    // const [depositToken, setDepositToken] = React.useState<string>('');
     if (globalContext != null) {
         const { handleFetchGetDeposit } = globalContext.functionGlobal;
 
         let tempAmountInput: string = '';
-        let tempMemoInput: string = '';
         let amountInput: string = '';
-        let memoInput: string = '';
+
         const sendToken = async () => {
             const serverWallet = await getServer();
             let serverAddress = '';
@@ -62,7 +64,7 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
                 denom: 'ueaura',
                 amount: amountInput,
             }]
-            // ve doc
+
             const fee: StdFee = {
                 amount: [{
                     denom: 'ueaura',
@@ -71,18 +73,33 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
                 gas: '200000',
             }
             if (signingClient != null && typeof address != 'undefined') {
-                const sendResult: DeliverTxResponse = await signingClient.sendTokens(address, receiver, amount, fee, memoInput);
+                const sendResult: DeliverTxResponse = await signingClient.sendTokens(address, receiver, amount, fee, depositToken.current);
                 assertIsDeliverTxSuccess(sendResult);
                 if (sendResult.code !== undefined &&
                     sendResult.code !== 0) {
                     alert("Failed to send tx: " + sendResult.rawLog);
                 } else {
+                    let txHash: string = sendResult.transactionHash;
+                    let data = null;
+                    try {
+                        const response = await fetch("http://192.168.10.65:3001/deposit", {
+                            // http://localhost:3001
+                            method: 'POST',
+                            headers: {
+                                "Content-type": "application/json"
+                            },
+                            body: JSON.stringify({ txHash })
+                        })
+                        data = await response.json();
+                    } catch (error) {
+                        console.log(error);
+                    }
                     alert("Succeed to send tx:" + sendResult.transactionHash);
                 }
             }
             await setNodeBalance(setBalance);
         }
-        
+
         const customStyles = {
             content: {
                 top: '50%',
@@ -92,48 +109,48 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
                 transform: 'translate(-50%, -50%)',
             },
         };
+
         Modal.setAppElement('#root');
-        const openModal = () => {
-            handleFetchGetDeposit();
-            setIsOpen(true)
+        const openModal = async () => {
+            const result = await handleFetchGetDeposit();
+            const rawToken = result.token;
+            console.log(rawToken);
+            if (rawToken) {
+                depositToken.current = rawToken;
+            }
+            setIsOpen(true);
         };
-        const afterOpenModal = () => { };
+
         const closeModal = () => setIsOpen(false);
 
-        return (<div className="Deposit">
-            <button className='Dropdown-item' onClick={openModal}>Deposit</button>
-            <Modal
-                isOpen={isOpen}
-                onAfterOpen={afterOpenModal}
-                // nothing
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Deposit"
-            >
-                <h1>Deposit</h1>
-                Amount(EAURA) :  <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => tempAmountInput = event.target.value} /> <br />
-                Memo:  <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => tempMemoInput = event.target.value} /> <br />
-                <button onClick={
-                    async () => {
-                        const parsedTempAmountInput: number = parseFloat(tempAmountInput) * 1000000;
-
-                        if (Number.isNaN(parsedTempAmountInput)) {
-                            alert("Please input a float in Amount(EAURA) field.")
-                        } else {
-                            amountInput = parsedTempAmountInput.toString();
-                            memoInput = tempMemoInput;
-                            closeModal();
-                            await sendToken();
+        return (
+            <div className="Deposit">
+                <button className='Dropdown-item' onClick={openModal}>Deposit</button>
+                <Modal
+                    isOpen={isOpen}
+                    // nothing
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Deposit"
+                >
+                    <h1>Deposit</h1>
+                    Amount(EAURA) :  <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => tempAmountInput = event.target.value} /> <br />
+                    <button onClick={
+                        async () => {
+                            const parsedTempAmountInput: number = parseFloat(tempAmountInput) * 1000000;
+                            if (Number.isNaN(parsedTempAmountInput)) {
+                                alert("Please input a float in Amount(EAURA) field.")
+                            } else {
+                                amountInput = parsedTempAmountInput.toString();
+                                closeModal();
+                                await sendToken();
+                            }
                         }
-
-                    }
-
-                }>Submit</button>
-                <button onClick={closeModal}>Close</button>
-
-            </Modal>
-        </div>);
-
+                    }>Submit</button>
+                    <button onClick={closeModal}>Close</button>
+                </Modal>
+            </div>
+        );
     }
     else {
         return (
@@ -144,101 +161,96 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
     }
 }
 
+// test Withdraw front-end
 const rpcEndpoint: string = 'https://rpc.euphoria.aura.network';
 interface WithdrawProps {
     address: string | undefined,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
-export function Withdraw({ address, setNodeBalance, setBalance }: WithdrawProps) {
+export function Withdraw() {
+    const globalContext = useContext(GlobalContext);
+    if (globalContext != null) {
 
-    let tempAmountInput: string = '';
-    let amountInput: string = '';
+        let tempAmountInput: string = '';
+        let Amount: number = NaN;
 
-    const getToken = async () => {
-        const serverWallet: OfflineDirectSigner | null = await getServer();
-        let serverAddress: string = '';
-        if (serverWallet != null) {
-            serverAddress = (await serverWallet.getAccounts())[0].address;
-        }
-        if (serverWallet != null) {
-            const signingClient: SigningStargateClient = await SigningStargateClient.connectWithSigner(rpcEndpoint, serverWallet);
+        const [isOpen, setIsOpen] = React.useState(false);
+        const customStyles = {
+            content: {
+                top: '50%',
+                left: '50%',
+                right: 'auto',
+                bottom: 'auto',
+                transform: 'translate(-50%, -50%)',
+            },
+        };
 
-            let receiver: string = '';
-            if (address != null) {
-                receiver = address;
-            }
+        Modal.setAppElement('#root');
+        const openModal = () => setIsOpen(true);
+        const afterOpenModal = () => { };
+        const closeModal = () => setIsOpen(false);
+        return (<div className="Withdraw">
+            <button className='Dropdown-item' onClick={openModal}>Withdraw</button>
+            <Modal
+                isOpen={isOpen}
+                onAfterOpen={afterOpenModal}
+                // nothing
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Withdraw"
+            >
+                <h1>Withdraw</h1>
+                Amount(EAURA) :  <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => tempAmountInput = event.target.value} /> <br />
+                <button onClick={async () => {
+                    const parsedTempAmountInput: number = parseFloat(tempAmountInput) * 1000000;
 
-            const amount: Coin[] = [{
-                denom: 'ueaura',
-                amount: amountInput,
-            }]
-            // ve doc
-            const fee: StdFee = {
-                amount: [{
-                    denom: 'ueaura',
-                    amount: '200',
-                },],
-                gas: '200000',
-            }
-            if (signingClient != null && typeof address != 'undefined') {
-                try {
-                    const sendResult: DeliverTxResponse = await signingClient.sendTokens(serverAddress, receiver, amount, fee);
-                    assertIsDeliverTxSuccess(sendResult);
-                    if (sendResult.code !== undefined &&
-                        sendResult.code !== 0) {
-                        alert("Failed to get tx: " + sendResult.rawLog);
+                    if (Number.isNaN(parsedTempAmountInput)) {
+                        alert("Please input a float in Amount(EAURA) field.")
                     } else {
-                        alert("Succeed to get tx:" + sendResult.transactionHash);
+                        if (parsedTempAmountInput >= globalContext.asset) {
+                            alert("Please input a valid Amount(EAURA) - Your asset don't have enough for Withdraw!")
+                            closeModal();
+                        }
+                        Amount = parsedTempAmountInput;
+
+                        let data = null;
+                        let address = globalContext.user?.bech32Address;
+
+                        try {
+                            const response = await fetch("http://192.168.10.65:3001/withdraw", {
+                                // http://localhost:3001
+                                method: 'POST',
+                                headers: {
+                                    "Content-type": "application/json"
+                                },
+                                body: JSON.stringify({ address, Amount })
+                            })
+                            data = await response.json();
+
+                            //code dieu kien check REST API ? Object user : ErrorMessage
+                        } catch (error) {
+                            console.log(error);
+                        }
+
+                        alert
+                        
+                        closeModal();
+                        // await getToken();
                     }
-                } catch (error: any) {
-                    alert("Failed to get tx, the faucet do not have enough EAURA.");
                 }
-            }
-
-        }
-        setNodeBalance(setBalance);
+                }>Submit</button>
+                <button onClick={closeModal}>Close</button>
+            </Modal>
+        </div>)
     }
-    const [isOpen, setIsOpen] = React.useState(false);
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            transform: 'translate(-50%, -50%)',
-        },
-    };
-
-    Modal.setAppElement('#root');
-    const openModal = () => setIsOpen(true);
-    const afterOpenModal = () => { };
-    const closeModal = () => setIsOpen(false);
-    return (<div className="Withdraw">
-        <button className='Dropdown-item' onClick={openModal}>Withdraw</button>
-        <Modal
-            isOpen={isOpen}
-            onAfterOpen={afterOpenModal}
-            // nothing
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Withdraw"
-        >
-            <h1>Withdraw</h1>
-            Amount(EAURA) :  <input type="text" onChange={(event: React.ChangeEvent<HTMLInputElement>) => tempAmountInput = event.target.value} /> <br />
-            <button onClick={async () => {
-                const parsedTempAmountInput: number = parseFloat(tempAmountInput) * 1000000;
-
-                if (Number.isNaN(parsedTempAmountInput)) {
-                    alert("Please input a float in Amount(EAURA) field.")
-                } else {
-                    amountInput = parsedTempAmountInput.toString();
-                    closeModal();
-                    await getToken();
-                }
-            }
-            }>Submit</button>
-            <button onClick={closeModal}>Close</button>
-        </Modal>
-    </div>)
+    else {
+        return (
+            <div>
+                <h1>
+                    ERROR!
+                </h1>
+            </div>
+        )
+    }
 }
