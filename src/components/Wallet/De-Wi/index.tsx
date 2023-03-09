@@ -12,7 +12,7 @@ export function De_WI({ signingClient, address, setNodeBalance, setBalance }: Ap
     return (
         <div>
             <Deposit signingClient={signingClient} address={address} setNodeBalance={setNodeBalance} setBalance={setBalance} />
-            <Withdraw address={address} setNodeBalance={setNodeBalance} setBalance={setBalance} />
+            {/* <Withdraw address={address} setNodeBalance={setNodeBalance} setBalance={setBalance} /> */}
         </div>
     );
 }

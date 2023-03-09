@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     if (signingClient != null) {
       localStorage.setItem('signingClient', JSON.stringify({ signingClient }));
-      handleFetchSignIn();
+      // handleFetchSignIn();
     }
   }, [signingClient]);
 
@@ -109,6 +109,24 @@ function App() {
     }
   }
 
+  const handleFetchGetDeposit = async () => {
+    try {
+      const response = await fetch("http://192.168.10.65:3001/get-verify-token", {
+        // http://localhost:3001
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({})
+      })
+
+      const data = await response.json()
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const functionSignOut = () => {
     setUser(undefined);
     localStorage.removeItem('signingClient');
@@ -137,7 +155,7 @@ function App() {
     }
   }
 
-  const [functionGlobal, setFunctionGlobal] = useState<any>({ handleFetchSignIn, functionSignOut, handleFetchToken, isKeplr, checkLastLoginUser });
+  const [functionGlobal, setFunctionGlobal] = useState<any>({ handleFetchSignIn, functionSignOut, handleFetchToken, isKeplr, checkLastLoginUser, handleFetchGetDeposit });
   return (
     <GlobalContext.Provider value={{ user, setUser, signingClient, setSigningClient, asset, setAsset, functionGlobal, setFunctionGlobal }}>
       <BrowserRouter>
