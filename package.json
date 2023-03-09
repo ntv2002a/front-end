@@ -58,6 +58,7 @@
   },
   "proxy": "http://192.168.10.68:3001",
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "@types/react-modal": "^3.13.1",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",

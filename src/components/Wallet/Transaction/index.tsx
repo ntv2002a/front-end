@@ -1,4 +1,4 @@
-import { AccountData, Coin, OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { Coin, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, StdFee, assertIsDeliverTxSuccess, DeliverTxResponse } from '@cosmjs/stargate';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import Modal from 'react-modal';
@@ -18,27 +18,27 @@ const getServer = async (): Promise<OfflineDirectSigner | null> => {
 
 interface DepositProps {
     signingClient: SigningStargateClient | null,
-    address: string | null,
+    address: string | undefined,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
 export function Deposit({ signingClient, address, setNodeBalance, setBalance }: DepositProps) {
 
-    const handleFetch =async () => {
-        try {
-            const response = await fetch("", {
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify({ action: 'deposit' })
-            })
-        }
-        catch (error) {
-            console.log(error);
-        }
+    // const handleFetch = async () => {
+    //     try {
+    //         const response = await fetch("", {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Content-type": "application/json"
+    //             },
+    //             body: JSON.stringify({ action: 'deposit' })
+    //         })
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //     }
         
-    }
+    // }
 
     let tempAmountInput: string = '';
     let tempMemoInput: string = '';
@@ -65,7 +65,7 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
             },],
             gas: '200000',
         }
-        if (signingClient != null && address != null) {
+        if (signingClient != null && typeof address != 'undefined') {
             const sendResult: DeliverTxResponse = await signingClient.sendTokens(address, receiver, amount, fee, memoInput);
             assertIsDeliverTxSuccess(sendResult);
             if (sendResult.code !== undefined &&
@@ -130,7 +130,7 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
 
 const rpcEndpoint: string = 'https://rpc.euphoria.aura.network';
 interface WithdrawProps {
-    address: string | null,
+    address: string | undefined,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }
@@ -165,7 +165,7 @@ export function Withdraw({ address, setNodeBalance, setBalance}: WithdrawProps) 
                 },],
                 gas: '200000',
             }
-            if (signingClient != null && address != null) {
+            if (signingClient != null && typeof address != 'undefined') {
                 try {
                     const sendResult: DeliverTxResponse = await signingClient.sendTokens(serverAddress, receiver, amount, fee);
                     assertIsDeliverTxSuccess(sendResult);

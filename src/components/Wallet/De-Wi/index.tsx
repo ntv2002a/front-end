@@ -4,7 +4,7 @@ import { Deposit, Withdraw } from "../Transaction";
 
 interface AppFunctionProps {
     signingClient: SigningStargateClient | null,
-    address: string | null,
+    address: string | undefined,
     setNodeBalance: (setBalance: React.Dispatch<React.SetStateAction<number>>) => Promise<void>,
     setBalance: React.Dispatch<React.SetStateAction<number>>
 }

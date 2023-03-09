@@ -1,5 +1,5 @@
 import { ChainInfo, Key, Window as KeplrWindow } from "@keplr-wallet/types";
-import { AccountData, OfflineSigner } from "@cosmjs/proto-signing"
+import { OfflineSigner } from "@cosmjs/proto-signing"
 import { Coin, SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import { Button } from 'react-bootstrap';
 import "./styles.css";
@@ -13,7 +13,6 @@ const rpcUrl: string = 'https://rpc.euphoria.aura.network';
 
 interface WalletConnectionProps {
   setSigningClient: React.Dispatch<React.SetStateAction<any>>,
-  // setAccount: React.Dispatch<React.SetStateAction<any>>,
   setBalance: React.Dispatch<React.SetStateAction<number>>,
   setUser : React.Dispatch<React.SetStateAction<Key | undefined>>
 }
@@ -44,7 +43,6 @@ export function WalletConnection({ setSigningClient, setBalance, setUser }: Wall
       const balance: number = parseFloat(balanceAsCoin.amount) * 1 / 1000000;
 
       setSigningClient(signingClient);
-      // setAccount(account);
       setBalance(balance);
       setUser((await keplr.getKey(chainId)));
     }
