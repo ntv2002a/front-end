@@ -119,8 +119,8 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
             console.log(rawToken);
             if (rawToken) {
                 depositToken.current = rawToken;
+                setIsOpen(true);
             }
-            setIsOpen(true);
         };
 
         const closeModal = () => setIsOpen(false);
