@@ -91,10 +91,12 @@ export function Deposit({ signingClient, address, setNodeBalance, setBalance }: 
                             body: JSON.stringify({ txHash })
                         })
                         data = await response.json();
+                        globalContext.setAsset(JSON.parse(data).asset)
+                        alert("Succeed to send tx:" + sendResult.transactionHash);
                     } catch (error) {
                         console.log(error);
                     }
-                    alert("Succeed to send tx:" + sendResult.transactionHash);
+                    
                 }
             }
             await setNodeBalance(setBalance);
@@ -227,8 +229,14 @@ export function Withdraw() {
                                 body: JSON.stringify({ address, Amount })
                             })
                             data = await response.json();
-
-                            //code dieu kien check REST API ? Object user : ErrorMessage
+                            if (typeof JSON.parse(data) == 'string') {
+                                alert("ERROR: " + JSON.parse(data))
+                            }
+                            else {
+                                globalContext.setAsset(JSON.parse(data).asset)
+                                alert("Withdraw Successfully!")
+                            }
+                            //code dieu kien check REST API ? Object user : ErrorMessage string
                         } catch (error) {
                             console.log(error);
                         }

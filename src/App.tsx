@@ -43,7 +43,7 @@ function App() {
       localStorage.removeItem('Last-User-Login')
       localStorage.setItem('Last-User-Login', JSON.stringify({ user, asset }));
     }
-  }, [user])
+  }, [user, asset])
 
   useEffect(() => {
     if (checkLastLoginUser != null) {
