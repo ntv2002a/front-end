@@ -7,6 +7,8 @@ import { Home } from './components/Pages/HomePage';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { Key } from '@keplr-wallet/types';
 import _ from 'lodash';
+import { io, Socket } from 'socket.io-client';
+import { Room, RoomSet } from './type';
 
 export type GlobalContent = {
   user: Key | undefined,
@@ -16,16 +18,26 @@ export type GlobalContent = {
   asset: number,
   setAsset: React.Dispatch<React.SetStateAction<number>>,
   functionGlobal: any,
-  setFunctionGlobal: React.Dispatch<any>
+  setFunctionGlobal: React.Dispatch<any>,
+  roomSet: RoomSet | null,
+  setRoomSet: React.Dispatch<React.SetStateAction<RoomSet | null>>,
+  currentRoom: Room | null,
+  setCurrentRoom: React.Dispatch<React.SetStateAction<Room | null>>
 }
 
+const socket : Socket = io('192.168.10.68:3001/');
+
 export const GlobalContext = createContext<GlobalContent | null>(null);
+export const SocketContext = createContext<Socket>(socket);
 
 function App() {
 
   const [user, setUser] = useState<Key>();
   const [signingClient, setSigningClient] = useState<SigningStargateClient | null>(null);
   const [asset, setAsset] = useState<number>(NaN);
+  const [roomSet, setRoomSet] = useState<RoomSet | null>(null);
+  const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
+
 
   useEffect(() => {
 
@@ -157,14 +169,14 @@ function App() {
 
   const [functionGlobal, setFunctionGlobal] = useState<any>({ handleFetchSignIn, functionSignOut, handleFetchToken, isKeplr, checkLastLoginUser, handleFetchGetDeposit });
   return (
-    <GlobalContext.Provider value={{ user, setUser, signingClient, setSigningClient, asset, setAsset, functionGlobal, setFunctionGlobal }}>
+    <GlobalContext.Provider value={{ user, setUser, signingClient, setSigningClient, asset, setAsset, functionGlobal, setFunctionGlobal, roomSet, setRoomSet, currentRoom, setCurrentRoom }}>
       <BrowserRouter>
         <div className="App">
           <header><NavBar /></header>
           <div>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/waitingroom" element={<Dashboard />} />
             </Routes>
           </div>
         </div>

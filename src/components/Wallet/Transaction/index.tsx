@@ -172,12 +172,12 @@ interface WithdrawProps {
 }
 export function Withdraw() {
     const globalContext = useContext(GlobalContext);
+    const [isOpen, setIsOpen] = React.useState(false);
     if (globalContext != null) {
-
         let tempAmountInput: string = '';
         let Amount: number = NaN;
 
-        const [isOpen, setIsOpen] = React.useState(false);
+        
         const customStyles = {
             content: {
                 top: '50%',
@@ -240,9 +240,6 @@ export function Withdraw() {
                         } catch (error) {
                             console.log(error);
                         }
-
-                        alert
-                        
                         closeModal();
                         // await getToken();
                     }

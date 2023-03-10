@@ -29,7 +29,7 @@ export const NavBar = () => {
             </Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="./">Home</Nav.Link>
-              <Nav.Link href="./dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="./waitingroom">Dashboard</Nav.Link>
             </Nav>
             <Nav>
               {(typeof globalContext.user == 'undefined') ? <WalletConnection setSigningClient={globalContext.setSigningClient} setBalance={globalContext.setAsset} setUser={globalContext.setUser} />
