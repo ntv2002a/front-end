@@ -48,6 +48,7 @@ export const Dashboard = () => {
             let address: string | undefined;
             address = globalContext.user?.bech32Address;
             socket.emit('join an existed room request', globalContext.currentRoom?.code, address);
+            navigate('/gameroom');
         }
 
         return (
@@ -60,7 +61,7 @@ export const Dashboard = () => {
                         <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
                         <button onClick={handleClick}>Go Back to Home</button>
                         <button onClick={createRoom}>Create Room</button>
-                        <button>Join Room</button>
+                        <button onClick={joinRoom}>Join Room</button>
 
                     </div>
                 </div>

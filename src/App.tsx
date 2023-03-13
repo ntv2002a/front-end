@@ -9,6 +9,7 @@ import { Key } from '@keplr-wallet/types';
 import _ from 'lodash';
 import { io, Socket } from 'socket.io-client';
 import { Room, RoomSet } from './type';
+import { GameRoom } from './components/Pages/GameRoom';
 
 export type GlobalContent = {
   user: Key | undefined,
@@ -181,6 +182,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/waitingroom" element={<Dashboard />} />
+              <Route path='/gameroom' element={<GameRoom />} />
             </Routes>
           </div>
         </div>
