@@ -25,7 +25,7 @@ export type GlobalContent = {
   setCurrentRoom: React.Dispatch<React.SetStateAction<Room | null>>
 }
 
-const socket : Socket = io('192.168.10.68:3001/');
+const socket : Socket = io('192.168.10.65:3001/');
 
 export const GlobalContext = createContext<GlobalContent | null>(null);
 export const SocketContext = createContext<Socket>(socket);
@@ -39,8 +39,12 @@ function App() {
   const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
 
 
-  useEffect(() => {
 
+  useEffect(() => {
+    socket.on('update room', (room :  Room) => {
+      console.log(room);
+      setCurrentRoom(room);
+  })
   }, [])
 
   useEffect(() => {

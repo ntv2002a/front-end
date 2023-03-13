@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import { SideBar } from '../../Navigation/Sidebar';
 import { GlobalContext, SocketContext } from '../../../App';
-import { RoomSet, User } from '../../../type';
+import { Room, RoomSet, User } from '../../../type';
 
 
 export const Dashboard = () => {
@@ -14,6 +14,7 @@ export const Dashboard = () => {
     const handleClick = () => {
         navigate('/');
     }
+
 
     const effectRef = useRef(true);
     useEffect(() => {
@@ -33,13 +34,20 @@ export const Dashboard = () => {
 
         const createRoom = () => {
             let code: number;
-            code = Math.random() * 100000;
+            code = (Math.round(Math.random() * 1000000)) ;
             let betAmount: number;
             betAmount = 5;
             let address: string | undefined;
             address = globalContext.user?.bech32Address;
             
             socket.emit('create new room request', code, betAmount, address);
+            
+        }
+
+        const joinRoom = () => {
+            let address: string | undefined;
+            address = globalContext.user?.bech32Address;
+            socket.emit('join an existed room request', globalContext.currentRoom?.code, address);
         }
 
         return (
@@ -52,6 +60,7 @@ export const Dashboard = () => {
                         <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
                         <button onClick={handleClick}>Go Back to Home</button>
                         <button onClick={createRoom}>Create Room</button>
+                        <button>Join Room</button>
 
                     </div>
                 </div>
