@@ -61,8 +61,6 @@ export const Dashboard = () => {
                         <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
                         <button onClick={handleClick}>Go Back to Home</button>
                         <button onClick={createRoom}>Create Room</button>
-                        <button onClick={joinRoom}>Join Room</button>
-
                     </div>
                 </div>
             </div>

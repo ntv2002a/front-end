@@ -1,0 +1,9 @@
+table, tr, td, th {
+    border: 1px solid black;
+    margin: 1px 1px 1px 1px;
+    padding: 5px 30px;
+}
+
+table {
+    width: 85%;
+}
