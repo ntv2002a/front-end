@@ -45,10 +45,10 @@ export const Dashboard = () => {
         }
 
         const joinRoom = () => {
-            let address: string | undefined;
-            address = globalContext.user?.bech32Address;
-            socket.emit('join an existed room request', globalContext.currentRoom?.code, address);
-            navigate('/gameroom');
+            // let address: string | undefined;
+            // address = globalContext.user?.bech32Address;
+            // socket.emit('join an existed room request', globalContext.currentRoom?.code, address);
+            navigate('/joinroom');
         }
 
         return (
@@ -58,9 +58,8 @@ export const Dashboard = () => {
                         <SideBar />
                     </ProSidebarProvider>
                     <div>
-                        <h1 style={{ textAlign: "center" }}>Nội Dung Chính</h1>
-                        <button onClick={handleClick}>Go Back to Home</button>
                         <button onClick={createRoom}>Create Room</button>
+                        <button onClick={joinRoom}>Join an existed room</button>
                     </div>
                 </div>
             </div>

@@ -2,13 +2,14 @@ import React, { createContext, useEffect, useState } from 'react';
 import './App.css';
 import { NavBar } from './components/Navigation/NavBar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Dashboard } from './components/Pages/Dashboard';
+import { Dashboard } from './components/Pages/WaitingRoom';
 import { Home } from './components/Pages/HomePage';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { Key } from '@keplr-wallet/types';
 import _ from 'lodash';
 import { io, Socket } from 'socket.io-client';
 import { Room, RoomSet } from './type';
+import { JoinRoom } from './components/Pages/JoinRoom';
 import { GameRoom } from './components/Pages/GameRoom';
 
 export type GlobalContent = {
@@ -182,6 +183,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/waitingroom" element={<Dashboard />} />
+              <Route path='/joinroom' element={<JoinRoom />} />
               <Route path='/gameroom' element={<GameRoom />} />
             </Routes>
           </div>
